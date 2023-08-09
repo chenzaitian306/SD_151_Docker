@@ -26,28 +26,32 @@ DEFAULT_OTHER = {
   "font": "DejaVuSans.ttf",
 }
 
+
 def dict_to_json_file(target_file: str, data: dict):
   """Write dictionary to specified json file"""
 
   with open(target_file, 'w') as f:
     json.dump(data, f)
 
-def json_file_to_dict(config_file: str) -> dict|None:
-   """Load json file into a dictionary. Return None if file does not exist."""
 
-   if os.path.isfile(config_file):
+def json_file_to_dict(config_file: str) -> dict | None:
+  """Load json file into a dictionary. Return None if file does not exist."""
+
+  if os.path.isfile(config_file):
     with open(config_file, 'r') as f:
       return json.load(f)
-   else:
-      return None
+  else:
+    return None
 
-def replace_if_invalid(value: str, replacement: str, pattern: str|re.Pattern[str]) -> str:
+
+def replace_if_invalid(value: str, replacement: str, pattern: str | re.Pattern[str]) -> str:
   """Returns original value if valid, fallback value if invalid"""
 
   if re.match(pattern, value):
     return value
   else:
     return replacement
+
 
 def check_and_replace_config(config_file: str, target_file: str = None):
   """Checks given file for invalid values. Replaces those with fallback values (default: overwrites file)."""
@@ -70,9 +74,9 @@ def check_and_replace_config(config_file: str, target_file: str = None):
   # Write results to file
   dict_to_json_file(target_file or config_file, data)
 
+
 if __name__ == '__main__':
   if len(sys.argv) > 1:
     check_and_replace_config(*sys.argv[1:])
   else:
     check_and_replace_config(DEFAULT_FILEPATH)
-
